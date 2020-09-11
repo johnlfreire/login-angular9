@@ -27,11 +27,19 @@ export class AuthService {
     )
   }
   async login(email: string, password: string) {
+    try { 
     const credential = await this.afAuth.auth.signInWithEmailAndPassword(
       email,
       password
-    );
-    return this.updateUserData(credential.user);
+    ); 
+
+      this.updateUserData(credential.user);
+      return credential.user;
+    } catch (error) {
+      return Promise.reject(new Error('A senha é inválida ou o usuário não possui uma senha!'))
+    }
+
+    
     //this.router.navigate(['index']);
   }
   async register(email: string, password: string) {
@@ -78,4 +86,5 @@ export class AuthService {
     return userRef.set(data, { merge: true })
 
   }
+
 }

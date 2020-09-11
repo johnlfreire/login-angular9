@@ -23,6 +23,8 @@ import { IndexComponent } from './index/index.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,9 +49,9 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     MatIconModule,
     MatCardModule,
     BrowserAnimationsModule,
-    MatDividerModule
-
-
+    MatDividerModule,
+    MatDialogModule,
+    MatSnackBarModule
   ],
   providers: [AuthService,AuthGuard],
   bootstrap: [AppComponent]
