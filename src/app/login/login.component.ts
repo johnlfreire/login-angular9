@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
 import {
   FormControl,
   FormGroupDirective,
@@ -11,7 +10,6 @@ import {
 import { ErrorStateMatcher } from '@angular/material/core';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { MatSnackBar, MatSnackBarHorizontalPosition,MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -40,12 +38,11 @@ export class LoginComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-
+  fieldTextType = true;
   constructor(
     private formBuilder: FormBuilder,
     private auth: AuthService,
     private router: Router,
-    private dialog: MatDialog,
     private _snackBar: MatSnackBar
   ) {}
   ngOnInit() {
@@ -55,17 +52,16 @@ export class LoginComponent implements OnInit {
     });
   }
   onSubmit() {
-
-    this.auth.login(
-     
+    this.auth.login(     
       this.loginForm.get('username').value,
       this.loginForm.get('password').value
-    ).then(error =>  this.openSnackBar('error.message')).catch(error =>{  
+    ).then(() =>  this.router.navigate(['/index'])).catch(error =>{  
       this.openSnackBar(error.message)});   
   }
 
   loginGoogle() {
-    this.auth.loginWithGoogle().then(()=>  this.router.navigate(['/index']));
+    this.auth.loginWithGoogle().then(()=>  this.router.navigate(['/index'])).catch(error =>{  
+      this.openSnackBar(error.message)});   
   }
   
   openSnackBar(error) {
@@ -75,6 +71,9 @@ export class LoginComponent implements OnInit {
       verticalPosition: this.verticalPosition,
       panelClass:['error'],
     });
+}
+toggleFieldTextType() {
+  this.fieldTextType = !this.fieldTextType;
 }
 
 }

@@ -65,10 +65,13 @@ export class AuthService {
     return user !== null;
   }
   async loginWithGoogle() {
+    try { 
     const provider = new auth.GoogleAuthProvider();
     const credential = await this.afAuth.auth.signInWithPopup(provider);
     return this.updateUserData(credential.user);
-
+  } catch (error) {
+    return Promise.reject(new Error('Ocorreu um problema efetuar o acesso!'))
+  }
   }
 
   private updateUserData(user) {
